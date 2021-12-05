@@ -21,17 +21,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - Atributos
     var tabelaDeRefeicoes: AdicionaRefeicaoDelegate?
     //var itens:[String] = ["molho de tomate", "massa pronta","tempero"]
-    var itens:[Item] = [Item(nome:"Molho de Tomate", calorias: 40.0),
-                        Item(nome:"Massa Pronta", calorias: 50.0),
-                        Item(nome:"Tempero", calorias: 10.0),
-                        Item(nome:"Queijo", calorias: 45.0)]
+    var itens:[Item] = []
     var itensSelecionados:[Item] = []
+
     
     // MARK: - View life cycle
     
     override func viewDidLoad() {
         let botaoAdicionarItem = UIBarButtonItem(title: "Add Item", style: .plain, target: self, action: #selector(vaiParaAdicionarItem))
         navigationItem.rightBarButtonItem = botaoAdicionarItem
+        
+        itens = ItemDao().listar()
+      
     }
     
     @objc func vaiParaAdicionarItem(){
@@ -108,6 +109,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func adicionarItem(_ item: Item){
         itens.append(item)
         tabelaItens?.reloadData()
+        ItemDao().salvar(listaItem: itens)
     }
     
     @objc func longPressGestureRecognize(_ gesture:UILongPressGestureRecognizer){

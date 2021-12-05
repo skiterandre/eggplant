@@ -9,9 +9,14 @@ import UIKit
 
 class RefeicoesViewController: UITableViewController, AdicionaRefeicaoDelegate{
     
-    var refeicoes = [Refeicao(nome:"Macarrão", felicidade: 3),
-                     Refeicao(nome:"Feijoada", felicidade: 5),
-                     Refeicao(nome:"Comida Japonesa", felicidade: 3)]
+    var refeicoes:[Refeicao] = []
+    
+
+    
+    override func viewDidLoad() {
+        refeicoes = RefeicaoDao().listar()
+             
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return refeicoes.count
@@ -31,6 +36,8 @@ class RefeicoesViewController: UITableViewController, AdicionaRefeicaoDelegate{
     func adicionar(_ refeicao:Refeicao){
         refeicoes.append(refeicao)
         tableView.reloadData()
+        RefeicaoDao().salvar(listaRefeicoes:refeicoes)
+    
     }
     
     @objc func onLongPressGesture(_ gesture:UILongPressGestureRecognizer){
@@ -49,6 +56,7 @@ class RefeicoesViewController: UITableViewController, AdicionaRefeicaoDelegate{
             }
         }
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? ViewController{
